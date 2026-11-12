@@ -57,14 +57,19 @@ func NewHardcodedClient() *llm.Client {
 
 // ClassifyNoTimeout labels the canned health-check message.
 //
-// CANARY 4 (nuguard-go-llm-missing-context-timeout, LLM04): the call uses a
-// root context with no deadline, so a slow or hung provider blocks forever.
+// CANARY 4, FIXED (lifecycle test): this call used a root context with no
+// deadline (nuguard-go-llm-missing-context-timeout, LLM04). It now has a
+// 30-second deadline, so the finding should be verified as fixed on the next
+// scan while every other canary stays open. The name is kept so the history
+// is easy to follow.
 func ClassifyNoTimeout(client *llm.Client) (string, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	defer cancel()
 	req := llm.ChatRequest{
 		Model:    model,
 		Messages: []llm.Message{{Role: "user", Content: "Reply with the single word: ok"}},
 	}
-	return client.CreateChatCompletion(context.Background(), req)
+	return client.CreateChatCompletion(ctx, req)
 }
 
 // AskOverInsecureTLS sends the canned health-check message through a custom

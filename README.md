@@ -21,7 +21,7 @@ Each planted flaw is in its own function, marked `// CANARY:` (Go) or
 | 1 | `assistant/vulnerable.go` | `SummarizeTicket` | `nuguard-go-llm-prompt-injection-sprintf` | prompt injection (LLM01) |
 | 2 | `assistant/vulnerable.go` | `TranslateReply` | `nuguard-go-llm-prompt-injection-sprintf` | prompt injection through a hand-written provider call |
 | 3 | `assistant/vulnerable.go` | `NewHardcodedClient` | `nuguard-go-hardcoded-api-key` | hard-coded AI API key (fake) |
-| 4 | `assistant/vulnerable.go` | `ClassifyNoTimeout` | `nuguard-go-llm-missing-context-timeout` | LLM call without a deadline (LLM04) |
+| 4 | `assistant/vulnerable.go` | `ClassifyNoTimeout` | `nuguard-go-llm-missing-context-timeout` | LLM call without a deadline (LLM04). **Fixed** in the second commit, as a lifecycle test: it should be verified as fixed. |
 | 5 | `assistant/vulnerable.go` | `AskOverInsecureTLS` | `nuguard-go-llm-insecure-tls` | TLS verification disabled for LLM traffic |
 | 6 | `tools/agent_tools.py` | `ask` | `nuguard-llm-prompt-injection-fstring` | prompt injection (Python) |
 | 7 | `tools/agent_tools.py` | `run_generated_code` | `nuguard-eval-on-llm-output` (×2: `eval`, `exec`) | code execution on model output |
